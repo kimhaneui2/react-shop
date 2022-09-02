@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  position: relative;
+  width: 100%;
+}
+.header{
+}
+.header img {
+  
 }
 .start {
 opacity: 0;
@@ -8,6 +15,17 @@ opacity: 0;
 opacity: 1;
 transition: opacity 1s;
 }
+.recent {
+  display: inline-block;
+  width: 20%;
+  top: 20%;
+  right: 0;
+  position: absolute;
+  background-color: white;
+  opacity: 70%;
+  border-radius: 10px;
+}
+
 .main-bg {
   height : 300px;
   background-size : cover;

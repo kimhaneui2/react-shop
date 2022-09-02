@@ -5,7 +5,11 @@ let cart = createSlice({
     name : 'cart',
     initialState : [
         {id : 0, name : 'White and Black', count : 2,},
-        {id : 1, name : 'Grey Yordan', count : 1}
+        {id : 1, name : 'Grey Yordan', count : 1},
+        {id : 2, name : 'Yordan', count : 3},
+        {id : 3, name : 'Grey', count : 4},
+        {id : 4, name : 'Honey', count : 2}
+
       ],
     reducers: {
     countIncrease(state, action){
@@ -16,38 +20,10 @@ let cart = createSlice({
     }
 }
   })
-
-
-let data = [
-  {
-    id : 0,
-    title : "White and Black",
-    content : "Born in France",
-    price : 120000,
-    url: "https://codingapple1.github.io/shop/shoes1.jpg"
-  },
-
-  {
-    id : 1,
-    title : "Red Knit",
-    content : "Born in Seoul",
-    price : 110000,
-    url: "https://codingapple1.github.io/shop/shoes2.jpg"
-  },
-
-  {
-    id : 2,
-    title : "Grey Yordan",
-    content : "Born in the States",
-    price : 130000,
-    url: "https://codingapple1.github.io/shop/shoes3.jpg"
-  }
-] 
-
   
 export let {changeName, increase} =  user.actions;
 export let {countIncrease, addItem} = cart.actions;
-export let info = data;
+
 export default configureStore({
   reducer: {
     user : user.reducer,

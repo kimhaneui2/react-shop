@@ -7,7 +7,7 @@ import bg from './img/bg.png'
 import { createContext, useEffect, useState, lazy, Suspense, useTransition} from 'react';
 import data from './data.js';
 import axios from 'axios';
-
+import Test from './exercise'
 // import Detail from './routes/Detail'
 // import Cart from './routes/Cart'
 
@@ -28,7 +28,6 @@ function App() {
   let [재고] = useState([10,11,12])
   let [alertFlag, setAlert] = useState(false)
   let [count, setCount] = useState(0);
-  let [tap, setTap] = useState(0);
   let navigate = useNavigate();
   let result = useQuery('작명', ()=>
   axios.get('https://codingapple1.github.io/userdata.json')
@@ -37,41 +36,45 @@ function App() {
   )
   return (
     <div className="App">
-      {
+      {/* {
         isPending ? '로딩중':
         b.map(()=>{
           return <div>{name}</div>
         })
-      }
-      <div>
-        <h4>최근검색</h4>
-        <ul>
-          {
-           recentList.map(function(recent){
-            return(
-              <li>{recent}</li>
-            )
-          })
-          }
-          
-          </ul>
-      </div>
+      } */}
+      
+      <div className="header" style={{backgroundImage: './img/header1.jpeg'}}></div>
        <Navbar bg="dark" variant="dark">
         <Container>
-        <Navbar.Brand href="/">ShoesShop</Navbar.Brand>
+        <Navbar.Brand href="/">W.concept</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link onClick={()=>navigate('/cart')}>Cart</Nav.Link>
+          <Nav.Link onClick={()=>navigate('/cart')}>Women</Nav.Link>
+          <Nav.Link onClick={()=>navigate('/cart')}>Men</Nav.Link>
+          <Nav.Link onClick={()=>navigate('/cart')}>Beauty</Nav.Link>
+          <Nav.Link onClick={()=>navigate('/test')}>test</Nav.Link>
         </Nav>
         <Nav className='ms-auto'>
           {result.isloading ? '로딩중': result.data}
         </Nav>
         </Container>
       </Navbar>
-
-      <Link to="/">home</Link>
+      <div className='recent'>
+        <h4>최근검색</h4>
+        <ul>
+          {
+           recentList.map(function(recent){
+            return(
+              <li key={recent}>{recent}</li>
+            )
+          })
+          }
+          
+          </ul>
+      </div>
+      {/* <Link to="/">home</Link>
       <br/>
-      <Link to="/detail">detail</Link>
+      <Link to="/detail">detail</Link> */}
       <Suspense fallback={ <div>로딩중임</div> }>
         <Routes>
           <Route path='/' element={ 
@@ -86,10 +89,10 @@ function App() {
               : null
           }
           <div className="row">
-          {
+            {
               shoes.map(function(item, i){
                 return(
-                  <Card item={item} i={i+1}></Card>
+                  <Card key={i} item={item} i={i+1}></Card>
                 )
               })
             }
@@ -102,7 +105,6 @@ function App() {
               alert('no')
             }
             axios.get('https://codingapple1.github.io/shop/data2.json').then((결과)=>{
-              console.log(결과.data)
               setAlert(false)
               let copy = [...shoes, ...결과.data]
               shoesSet(copy);
@@ -113,25 +115,13 @@ function App() {
               console.log('실패함')
             })
           }}>button</button>
-          <Nav variant="tabs"  defaultActiveKey="link0">
-      <Nav.Item>
-        <Nav.Link eventKey="link0" onClick={()=>setTap(0)}>버튼0</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="link1"onClick={()=>setTap(1)}>버튼1</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="link2"onClick={()=>setTap(2)}>버튼2</Nav.Link>
-      </Nav.Item>
-      </Nav>
-      <TabContent tap={tap} shoes={shoes}/>
           </div>  
           </>} />
           <Route path='/detail/:id' element={ 
               <Detail shoes={shoes}/> 
           } />
           <Route path='/cart' element={<Cart/>}/>
-          
+          <Route path='/test' element={<Test/>}/>
           <Route path='/about' element={ <About/> }>
             <Route path='member' element={<div>멤버임</div>} />
           </Route>
@@ -146,18 +136,6 @@ function App() {
     </div>
   );
 }
-
-function TabContent({tap,shoes}){
-  let [fade, setFade] = useState('');
-  useEffect(()=>{
-    setTimeout(()=>{setFade('end')},200)
-    return()=>{
-      setFade('') //clean up function
-    }
-  },[tap])
-  return <div className={'start' + fade}>{shoes[tap].title}</div>
-}
-
 function About(){
   return (
     <div>

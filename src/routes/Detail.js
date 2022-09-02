@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
+import {Navbar, Container, Nav} from 'react-bootstrap'
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components';
-import addItem from '../store'
+import {addItem} from '../store'
 
 let yellowBtn = styled.button`
     backgroud: ${props=>props.bg};
-    color: black
+    color: blue
 `
 let Box = styled.div`
   padding : 20px;
@@ -14,13 +15,14 @@ let Box = styled.div`
 `;
 
 function Detail(props){
-    let a = useSelector((state)=>{return state})
     let dispatch = useDispatch()
     let [alert, setAlert] = useState(true)
     let [num, setNum] = useState('')
     let [count, setCount] = useState(0)
     let [fade, setFade] = useState('')
     let {id} = useParams()
+    let [tap, setTap] = useState(0);
+    
     let shoes = props.shoes.find((x)=>x.id = id)
 
     useEffect(()=>{
@@ -51,7 +53,8 @@ function Detail(props){
         }
         {count}
         <button onClick={()=>{setCount(count + 1)}}>button</button>
-        {/* <yellowBtn bg="blue">btn</yellowBtn> */}
+        {/* 준이한테 물어볼꺼 */}
+        <yellowBtn bg="blue">btn</yellowBtn> 
         <input type="text" onChange={(e)=>{
             if(isNaN(e.target.value) == true){
                 alert('그러지마세요')
@@ -67,12 +70,42 @@ function Detail(props){
             <p>{shoes.content}</p>
             <p>{shoes.price}</p>
             <button className="btn btn-danger" onClick={()=>{
-                dispatch(addItem(shoes))
+                console.log(shoes,'shoes');
+                dispatch(addItem({id : shoes.id, name : shoes.title, count : 1}))
             }}>주문하기</button> 
             </div>
         </div>
+        <Nav variant="tabs"  defaultActiveKey="link0">
+        <Nav.Item>
+        <Nav.Link eventKey="link0" onClick={()=>setTap(0)}>상세정보</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+        <Nav.Link eventKey="link1"onClick={()=>setTap(1)}>리뷰</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+        <Nav.Link eventKey="link2"onClick={()=>setTap(2)}>문의하기</Nav.Link>
+        </Nav.Item>
+        </Nav>
+        <TabContent tap={tap} />
         </div> 
     )
 }
+function TabContent({tab}){
 
+    let [fade, setFade] = useState('')
+    useEffect(()=>{
+      setTimeout(()=>{ setFade('end') }, 100)
+      console.log(tab,'tab')
+    return ()=>{
+      setFade('')
+    }
+    }, [tab])
+  
+    return (
+      <div className={'start ' + fade}>
+        { <div>내용{tab}</div> }
+      </div>
+    )
+  }
+  
 export default Detail
